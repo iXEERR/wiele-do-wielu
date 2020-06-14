@@ -1,0 +1,97 @@
+<html>
+ <head>
+  <meta charset="utf-8">
+  <title>Wstawianie</title>
+ </head>
+ <body>
+  <h1>Wstawianie do bazy</h1>
+  <form method="get" action="insert.php">
+   <table border="0">
+      
+      <tr><td>PESEL</td><td><select name="pesel">
+          
+          
+          
+          <?php
+include "polacz.php";
+          
+if ($sql =  $baza->prepare("SELECT PESEL FROM wlasciciel"))
+{
+        $sql->execute();
+        $sql->bind_result($PESEL);
+        while ($sql->fetch())
+        {
+                echo "<option>$PESEL</option>";
+        }
+        $sql->close();
+ }
+else die( "Błąd w zapytaniu SQL! Sprawdź kod SQL w PhpMyAdmin: ". $baza->error );
+
+ 
+?>
+          
+          
+          
+          
+          
+          </select></td></tr>
+       <tr><td>VIN</td><td><select name="vin">
+          
+          
+          
+          <?php
+
+          
+if ($sql =  $baza->prepare("SELECT VIN FROM samochod"))
+{
+        $sql->execute();
+        $sql->bind_result($VIN);
+        while ($sql->fetch())
+        {
+                echo "<option>$VIN</option>";
+        }
+        $sql->close();
+ }
+else die( "Błąd w zapytaniu SQL! Sprawdź kod SQL w PhpMyAdmin: ". $baza->error );
+
+ 
+?>
+          
+          
+          
+          
+          
+          </select></td></tr>
+       
+      <tr><td colspan="2"><input type="submit" value="wstaw"></td></tr>
+   </table>
+  </form>
+     
+     <table border="1">
+   <tr>
+     <th>PESEL</th><th>VIN</th>
+   </tr>
+<?php
+
+if ($sql =  $baza->prepare("SELECT * FROM posiada"))
+{
+        $sql->execute();
+        $sql->bind_result($VIN,$PESEL);
+        while ($sql->fetch())
+        {
+                echo "<tr>
+                        <td>$PESEL</td>
+                        <td>$VIN</td>
+                       ";
+        }
+        $sql->close();
+ }
+else die( "Błąd w zapytaniu SQL! Sprawdź kod SQL w PhpMyAdmin: ". $baza->error );
+
+ 
+?>
+  </table>
+     
+     
+ </body>
+</html>
